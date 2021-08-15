@@ -2,12 +2,13 @@ from imutils import face_utils
 from imutils.video import VideoStream
 import dlib
 import cv2
+import time
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 vs = VideoStream(0).start()
-
+time.sleep(0.2)
 while True:
 
     frame = vs.read()
@@ -20,7 +21,7 @@ while True:
         (x, y, w, h) = face_utils.rect_to_bb(rect)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 200, 0), 2)
 
-        cv2.putText(frame, "Face #{}".format(i + 1), (x - 10, y - 10),
+        cv2.putText(frame, "Yuz #{}".format(i + 1), (x - 10, y - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
         # Nuqtalar
