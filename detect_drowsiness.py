@@ -31,7 +31,7 @@ ap.add_argument("-a", "--alarm", type=str, default="")
 
 args = vars(ap.parse_args())
 
-EYE_AR_THRESH = 0.3
+EYE_AR_THRESH = 0.29
 EYE_AR_CONSECS_FRAMES = 20
 COUNTER = 0
 ALARM_ON = False
@@ -86,7 +86,7 @@ while True:
                         t.daemon = True
                         t.start()
                 cv2.putText(frame, "OGOHLANTIRUVCHI SIGNAL", (rightEyeHull[0][0][0] - 100, leftEyeHull[0][0][1]),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 4)
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 4)
         else:
             COUNTER = 0
             ALARM_ON = False
@@ -100,11 +100,3 @@ while True:
 
 cv2.destroyAllWindows()
 vs.stop()
-
-
-
-
-
-
-
-
