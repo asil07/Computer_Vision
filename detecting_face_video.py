@@ -1,11 +1,17 @@
 from imutils import face_utils
 from imutils.video import VideoStream
+import argparse
 import dlib
 import cv2
 import time
 
+ap = argparse.ArgumentParser()
+ap.add_argument("-p", "--shape-predictor", required=True,
+                help="path to facial landmark predictor")
+args = vars(ap.parse_args())
+
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor(args["shape_predictor"])
 
 vs = VideoStream(0).start()
 time.sleep(0.2)
