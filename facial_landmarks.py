@@ -21,7 +21,7 @@ def result(object):
 # initializes dlib's face detector (HOG-based) and then creates
 # the facial landmark predictor
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('shape-predictor')
+predictor = dlib.shape_predictor(args['shape_predictor'])
 
 image = cv2.imread(args["image"])
 image = imutils.resize(image, width=500)
