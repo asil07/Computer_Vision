@@ -1,4 +1,4 @@
-from pyimagesearch.nn.neuralnetwork import NeuralNetwork
+from DL4CV.pyimagesearch.nn.neuralnetwork import NeuralNetwork
 import numpy as np
 
 X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])

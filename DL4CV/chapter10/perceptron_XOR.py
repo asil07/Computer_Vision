@@ -1,4 +1,4 @@
-from pyimagesearch.nn.perceptron import Perceptron
+from DL4CV.pyimagesearch.nn import Perceptron
 import numpy as np
 
 X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
