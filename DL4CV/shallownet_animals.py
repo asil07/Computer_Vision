@@ -1,3 +1,4 @@
+import pylab as pl
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
@@ -40,7 +41,7 @@ model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy
 
 print("INFO: training network ...")
 H = model.fit(trainX, trainY, validation_data=(testX, testY),
-              batch_size=32, epochs=10, verbose=1)
+              batch_size=32, epochs=20, verbose=1)
 
 print("INFO: Evaluating network...")
 predictions = model.predict(testX, batch_size=32)
@@ -48,5 +49,16 @@ print(classification_report(testY.argmax(axis=1), predictions.argmax(axis=1),
                             target_names=["cat", "dog", "panda"]))
 
 
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(np.arange(0, 20), H.history["loss"], label="Train_loss")
+plt.plot(np.arange(0, 20), H.history["val_loss"], label="val_loss")
+plt.plot(np.arange(0, 20), H.history["accuracy"], label="Accuracy")
+pl.plot(np.arange(0, 20), H.history["val_accuracy"], label="val_acc")
+plt.title("Training Loss and Acc")
+plt.xlabel("Epoch #")
+plt.ylabel("LOSS / ACC")
+plt.legend()
+plt.show()
 
 
