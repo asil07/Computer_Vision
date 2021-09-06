@@ -1,4 +1,3 @@
-import pylab as pl
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
@@ -54,7 +53,7 @@ plt.figure()
 plt.plot(np.arange(0, 20), H.history["loss"], label="Train_loss")
 plt.plot(np.arange(0, 20), H.history["val_loss"], label="val_loss")
 plt.plot(np.arange(0, 20), H.history["accuracy"], label="Accuracy")
-pl.plot(np.arange(0, 20), H.history["val_accuracy"], label="val_acc")
+plt.plot(np.arange(0, 20), H.history["val_accuracy"], label="val_acc")
 plt.title("Training Loss and Acc")
 plt.xlabel("Epoch #")
 plt.ylabel("LOSS / ACC")
