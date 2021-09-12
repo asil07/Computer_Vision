@@ -34,7 +34,7 @@ data = data.astype("float") / 255.0
                                                   random_state=42)
 lb = LabelBinarizer()
 trainY = lb.fit_transform(trainY)
-testY = lb.fit_transform(testY)
+testY = lb.transform(testY)
 
 info("compiling model...")
 opt = SGD(0.005)

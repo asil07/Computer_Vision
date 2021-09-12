@@ -12,7 +12,7 @@ def prepare(file_path):
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
     return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
-model = load_model("lenet_mnist.hdf5")
+model = load_model("models/lenet_mnist.hdf5")
 
 prediction = model.predict(prepare("number.jpg")).argmax(axis=1)
 print(CATEGORIES[prediction[0]])

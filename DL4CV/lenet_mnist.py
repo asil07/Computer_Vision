@@ -28,7 +28,7 @@ else:
                                                   test_size=0.25, random_state=42)
 le = LabelBinarizer()
 trainY = le.fit_transform(trainY)
-testY = le.fit_transform(testY)
+testY = le.transform(testY)
 
 print("[INFO] compiling model...")
 opt = SGD(0.01)
