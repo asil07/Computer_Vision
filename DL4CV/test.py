@@ -7,15 +7,15 @@ import cv2
 CATEGORIES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
 def prepare(file_path):
-    IMG_SIZE = 28
+    IMG_SIZE = 32
     img_array = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
     return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
-model = load_model("models/lenet_mnist.hdf5")
+model = load_model("chapter_16/minivggnet.h5")
 
-prediction = model.predict(prepare("number.jpg")).argmax(axis=1)
-print(CATEGORIES[prediction[0]])
+prediction = model.predict(prepare("photos/doggy.jpg"))
+print(prediction[0])
 
 
 # def info(process):
