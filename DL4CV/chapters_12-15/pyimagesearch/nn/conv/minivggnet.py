@@ -18,7 +18,7 @@ class MiniVGGNet:
             inputShape = (depth, height, width)
             chanfim = 1
 
-        model.add(Conv2D(32, (3, 3), padding="same"))
+        model.add(Conv2D(32, (3, 3), padding="same", inputShape=inputShape))
         model.add(Activation("relu"))
         model.add(BatchNormalization(axis=chanDim))
         model.add(Conv2D(32, (3, 3), padding="same"))

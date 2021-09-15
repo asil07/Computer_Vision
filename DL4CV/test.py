@@ -3,8 +3,12 @@ from keras.preprocessing import image
 import matplotlib.pyplot as plt
 import numpy as np
 
+model = load_model("chapter_16/minivggnet.h5")
+
 import cv2
+
 CATEGORIES = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
 
 def prepare(file_path):
     IMG_SIZE = 32
@@ -12,24 +16,27 @@ def prepare(file_path):
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
     return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 
-model = load_model("chapter_16/minivggnet.h5")
 
-prediction = model.predict(prepare("photos/doggy.jpg"))
-print(prediction[0])
+# prediction = model.predict(prepare("photos/doggy.jpg")).argmax(axis=1)
+# print(prediction[0])
 
 
-# def info(process):
-#     print(f"[INFO] {process}")
-#
-#
-# class_labels = ["cat", "dog", "panda"]
-#
-# orig = "number.jpg"
-#
-# img = image.load_img(orig, target_size=(28, 28))
-# img = image.img_to_array(img)
-# img = np.expand_dims(img, axis=0)
-# img = img.astype("float") / 255.0
+# ===========================
+
+labelNames = ["airplane", "automobile", "bird", "cat", "deer",
+              "dog", "frog", "horse", "ship", "truck"]
+
+
+def prepare2(file_path):
+    img = image.load_img(file_path, target_size=(32, 32))
+    img = image.img_to_array(img)
+    img = np.expand_dims(img, axis=0)
+    img = img.astype("float") / 255.0
+    return img
+
+
+pred = model.predict(prepare2("photos/car.jpg")).argmax(axis=1)
+print(labelNames[pred[0]])
 #
 #
 # info("Loading pre-trained model...")
@@ -92,4 +99,3 @@ print(prediction[0])
 #
 # cv2.imshow("Image", image)
 # cv2.waitKey(0)
-
