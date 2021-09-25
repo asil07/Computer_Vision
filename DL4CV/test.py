@@ -35,7 +35,7 @@ def prepare2(file_path):
     return img
 
 
-pred = model.predict(prepare2("photos/car.jpg")).argmax(axis=1)
+pred = model.predict(prepare2("photos/truck.jpg")).argmax(axis=1)
 print(labelNames[pred[0]])
 #
 #
