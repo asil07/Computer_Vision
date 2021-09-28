@@ -43,7 +43,11 @@ le = LabelEncoder().fit(labels)
 labels = np_utils.to_categorical(le.transform(labels), 2)
 
 classTotals = labels.sum(axis=0)
-classWeight = classTotals.max() / classTotals
+classWeight = dict()
+
+# loop over all classes and calculate the class weight
+for i in range(0, len(classTotals)):
+    classWeight[i] = classTotals.max() / classTotals[i]
 
 # partition
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20,
