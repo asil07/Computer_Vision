@@ -30,7 +30,7 @@ labels = le.fit_transform(labels)
 print("INFO: loading network... ")
 model = ResNet50(weights="imagenet", include_top=False)
 
-dataset = HDF5DatasetWriter((len(imagePaths), 2048), args["output"], dataKey="features",
+dataset = HDF5DatasetWriter((len(imagePaths), 2048 * 7 * 7), args["output"], dataKey="features",
                             bufSize=args["buffer_size"])
 dataset.storeClassLabels(le.classes_)
 
@@ -62,7 +62,7 @@ for i in np.arange(0, len(imagePaths), bs):
     print(f'Features.shape {features.shape}')
     # reshapes the features so that each image is represented by
     # a flattened feature vector of the ‘MaxPooling2D‘ outputs
-    features = features.reshape((features.shape[0], 2048))
+    features = features.reshape((features.shape[0], 2048 * 7 * 7))
 
     dataset.add(features, batchLabels)
     pbar.update(i)
