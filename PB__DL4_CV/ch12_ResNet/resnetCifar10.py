@@ -6,7 +6,7 @@ from pyimagesearch.nn.conv.resnet import ResNet
 from pyimagesearch.callbacks.epochcheckpoint import EpochCheckpoint
 from pyimagesearch.callbacks.trainingmonitor import TrainingMonitor
 from keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import SGD, Adam
 from keras.datasets import cifar10
 from keras.models import load_model
 import keras.backend as K
@@ -42,9 +42,10 @@ aug = ImageDataGenerator(height_shift_range=0.1, width_shift_range=0.1, horizont
 if args['model'] is None:
     print("INFO: compiling model....")
     opt = SGD(learning_rate=1e-1)
+    opt_A = Adam(learning_rate=0.1)
     model = ResNet.build(width=32, height=32, depth=3, classes=10,
-                         stages=(9, 9, 9), filters=(64, 64, 128, 256), reg=0.0005)
-    model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
+                         stages=(9, 9, 9), filters=(16, 64, 128, 256), reg=0.0005)
+    model.compile(loss="categorical_crossentropy", optimizer=opt_A, metrics=["accuracy"])
 
 else:
     print(f"INFO loading {args['model']}...")
@@ -64,8 +65,6 @@ callbacks = [
 # ===================================
 print("Info: training network...")
 model.fit(aug.flow(trainX, trainY, batch_size=128), validation_data=(testX, testY),
-          steps_per_epoch=len(trainX) // 128, epochs=100, callbacks=callbacks, verbose=1)
-
-
+          steps_per_epoch=len(trainX) // 128, epochs=10, callbacks=callbacks, verbose=1)
 
 
