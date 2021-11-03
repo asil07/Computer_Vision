@@ -2,8 +2,8 @@ from pyimagesearch.nn.conv.neuralstyle import NeuralStyle
 from tensorflow.keras.applications import VGG19
 
 SETTINGS = {
-    "input_path": "inputs/jp.jpg",
-    "style_path": "inputs/starry_night.jpg",
+    "input_path": "input/face_noun.jpg",
+    "style_path": "input/mcescher.jpg",
     "output_path": "output",
 
     # CNN to be used for style transfer
