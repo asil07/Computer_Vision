@@ -29,7 +29,7 @@ class NeuralStyle:
                                    input_tensor=self.input)
 
         layerMap = {l.name: l.output for l in self.model.layers}
-        print(f"INFO: {layerMap}")
+
         contentFeatures = layerMap[self.S["content_layer"]]
         styleFeatures = contentFeatures[0, :, :, :]
         outputFeatures = contentFeatures[2, :, :, :]
@@ -52,7 +52,6 @@ class NeuralStyle:
             # compute style reconstruction loss as we go
             T = self.styleReconLoss(styleFeatures, outputFeatures)
             styleLoss = styleLoss + (weight * T)
-
 
         styleLoss *= self.S["style_weight"]
         tvLoss = self.S["tv_weight"] * self.tvLoss(self.output)
@@ -125,7 +124,7 @@ class NeuralStyle:
 
         X = np.random.uniform(0, 255, (1, self.dims[0], self.dims[1], 3)) - 128
 
-        for i in range(9, self.S['iterations']):
+        for i in range(0, self.S['iterations']):
             print(f"INFO: starting iteration {i + 1} of {self.S['iterations']}")
 
             (X, loss, _) = fmin_l_bfgs_b(self.loss, X.flatten(), fprime=self.grads, maxfun=maxEvals)

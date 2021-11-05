@@ -1,6 +1,7 @@
 from pyimagesearch.nn.conv.neuralstyle import NeuralStyle
 from tensorflow.keras.applications import VGG19
-
+import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
 SETTINGS = {
     "input_path": "input/face_noun.jpg",
     "style_path": "input/mcescher.jpg",
@@ -15,7 +16,7 @@ SETTINGS = {
     "style_weight": 100.0,
     "tv_weight": 10.0,
 
-    "iterations": 50
+    "iterations": 15
 }
 
 ns = NeuralStyle(SETTINGS)
