@@ -1,7 +1,7 @@
 from pyimagesearch.nn.conv.dcgan import DCGAN
 from keras.models import Model
 from keras.layers import Input
-from tensorflow.keras.optimizers import Adam
+from tensorflow.python.keras.optimizers import Adam
 from keras.datasets import mnist
 from sklearn.utils import shuffle
 from imutils import build_montages
@@ -19,6 +19,9 @@ args = vars(ap.parse_args())
 NUM_EPOCHS = args["epochs"]
 BATCH_SIZE = args["batch_size"]
 print("INFO: loading MNIST dataset...")
+
+
+
 
 
 
