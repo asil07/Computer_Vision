@@ -50,6 +50,52 @@ for epoch in range(NUM_EPOCHS):
     print(f"INFO: starting epoch {epoch + 1} of {NUM_EPOCHS}...")
     batchesPerEpoch = int(trainImages.shape[0] / BATCH_SIZE)
 
+    # loop over the batches
+    for i in range(0, batchesPerEpoch):
+        # empty output path
+        p = None
+        imageBatch = trainImages[i * BATCH_SIZE:(i + 1) * BATCH_SIZE]
+        noise = np.random.uniform(-1, 1, size=(BATCH_SIZE, 100))
+
+        genImages = gen.predict(noise, verbose=0)
+
+        # discriminator to recognize real and synthetic
+        X = np.concatenate((imageBatch, genImages))
+        y = ([1] * BATCH_SIZE) + ([0] * BATCH_SIZE)
+        (X, y) = shuffle(X, y)
+
+        discLoss = disc.train_on_batch(X, y)
+
+        # train gan itself
+        noise = np.random.uniform(-1, 1, (BATCH_SIZE, 100))
+        ganLoss = gan.train_on_batch(noise, [1] * BATCH_SIZE)
+
+        if i == batchesPerEpoch - 1:
+            p = [args["output"], f"epoch_{str(epoch + 1).zfill(4)}_output.png"]
+
+        else:
+            if epoch < 10 and i % 25 == 0:
+                p = [args["output"], f"epoch_{str(epoch + 1).zfill(4)}_step_{str(i).zfill(5)}.png"]
+
+            elif epoch >= 10 and i % 100 == 0:
+                p = [args["output"], f"epoch_{str(epoch + 1).zfill(4)}_step_{str(i).zfill(5)}.png"]
+
+        if p is not None:
+            print(f"INFO: Step {epoch+1}_{i}: discriminator_loss={discLoss}, "
+                  f"adversarial_loss={ganLoss}")
+
+        images = gen.predict(benchmarkNoise)
+        images = ((images * 127.5) + 127.5).astype("uint8")
+        images = np.repeat(images, 3, axis=-1)
+        vis = build_montages(images, (28, 28), (16, 16))[0]
+
+        p = os.path.sep.join(p)
+        cv2.imwrite(p, vis)
+
+
+
+
+
 
 
 
