@@ -25,8 +25,9 @@ for imagePath in imagePaths:
     h -= int(h % config.SCALE)
     image = image[0:h, 0:w]
 
-    scaled = misc.imresize(image, 1.0 / config.SCALE, interp="bicubic")
-    scaled = misc.imresize(scaled, config.SCALE/1.0, interp="bicubic")
+    scaled = cv2.resize(image, 1.0 / config.SCALE, interpolation="bicubic")
+    scaled = cv2.resize(scaled, config.SCALE/1.0, interpolation="bicubic")
+
 
 
 
