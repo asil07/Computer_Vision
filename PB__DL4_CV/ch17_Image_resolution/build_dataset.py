@@ -28,6 +28,52 @@ for imagePath in imagePaths:
     scaled = cv2.resize(image, 1.0 / config.SCALE, interpolation="bicubic")
     scaled = cv2.resize(scaled, config.SCALE/1.0, interpolation="bicubic")
 
+    for y in range(0, h - config.INPUT_DIM +1, config.STRIDE):
+        for x in range(0, w- config.INPUT_DIM + 1, config.STRIDE):
+
+            crop = scaled[y:y + config.INPUT_DIM, x:x + config.INPUT_DIM]
+
+            target = image[
+                y + config.PAD:y + config.PAD + config.LABEL_SIZE,
+                x + config.PAD:x + config.PAD + config.LABEL_SIZE
+            ]
+            crop_path = os.path.sep.join([config.IMAGES, f"{total}.png"])
+            target_path = os.path.sep.join([config.LABELS, f"{total}.png"])
+
+            cv2.imwrite(crop_path, crop)
+            cv2.imwrite(target_path, target)
+
+            total += 1
+
+print("INFO: building HDF5 datasets...")
+inputPaths = sorted(list(paths.list_images(config.IMAGES)))
+outputPaths = sorted(list(paths.list_images(config.LABELS)))
+
+inputWriter = HDF5DatasetWriter((len(inputPaths), config.INPUT_DIM, config.INPUT_DIM, 3), config.INPUT_DB)
+outputWriter = HDF5DatasetWriter((len(outputPaths), config.LABEL_SIZE, config.LABEL_SIZE, 3), config.OUTPUT_DB)
+
+for (inputPath, outputPath) in zip(inputPaths, outputPaths):
+    inputImage = cv2.imread(inputPath)
+    outputImage = cv2.imread(outputPath)
+    inputWriter.add([inputImage], [-1])
+    outputWriter.add([outputImage], [-1])
+
+inputWriter.close()
+outputWriter.close()
+
+print("INFO: Cleaning up...")
+shutil.rmtree(config.IMAGES)
+shutil.rmtree(config.LABELS)
+
+
+
+
+
+
+
+
+
+
 
 
 
