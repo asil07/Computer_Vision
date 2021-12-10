@@ -29,7 +29,19 @@ output = np.zeros(scaled.shape)
 (h, w) = output.shape[:2]
 
 
+for y in range(0, h - config.INPUT_DIM + 1, config.LABEL_SIZE):
+    for x in range(0, w - config.INPUT_DIM + 1, config.LABEL_SIZE):
+        crop = scaled[y:y + config.INPUT_DIM, x:x + config.INPUT_DIM]
 
+        P = model.predict(np.expand_dims(crop, axis=0))
+        P = P.reshape((config.LABEL_SIZE, config.LABEL_SIZE, 3))
+        output[y + config.PAD:y + config.PAD + config.LABEL_SIZE,
+        x + config.PAD:x + config.PAD + config.LABEL_SIZE] = P
+
+output = output[config.PAD:h - ((h % config.INPUT_DIM) + config.PAD), config.PAD:w - ((w % config.INPUT_DIM) + config.PAD)]
+output = np.clip(output, 0, 255).astype("uint8")
+
+cv2.imwrite(args["output"], output)
 
 
 
